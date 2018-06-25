@@ -6,37 +6,74 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <style type="text/css">
+    <style>
         #map-canvas {
-            height: 481px;
+            height: 500px;
         }
     </style>
 </head>
 <body>
-    <div id="map-canvas"></div>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxIPbNd4ljI6NdSyP5ugk4XoKDzw2VEZM"></script>
 
-<script type="text/javascript">
-    (function() {
-        "use strict";
+<div id="map-canvas"></div>
 
-        // Set our map options
+<script>
+
+    function initMap() {
+        var mapCanvas = document.getElementById('map-canvas');
         var mapOptions = {
-            // Set the zoom level
-            zoom: 19,
-
-            // This sets the center of the map at our location
+            zoom: 20,
+            mapTypeId: google.maps.MapTypeId.SATELLITE,
             center: {
-                lat:  29.426791,
-                lng: -98.489602
+                lat: 29.492833,
+                lng: -98.569148
+
             }
         };
+        var map = new google.maps.Map(mapCanvas, mapOptions);
 
-        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-    })();
-        </script>
+        //geocoding
+        var geo = new google.maps.Geocoder();
+
+        geo.geocode({address: "1621 Babcock Rd"}, function(response, status) {
+            if (status === "OK") {
 
 
+            map.setCenter(response[0].geometry.location);
+
+
+            } else {
+                console.log('geocode fail');
+            }
+        });
+        //marker
+
+        var marker = new google.maps.Marker({
+            position: {
+
+                lat: 29.492833,
+                lng: -98.569148
+            },
+            map: map
+        });
+        //infowindow
+        var infowindow = new google.maps.InfoWindow({
+            content: "Best German Chocolate Cake!"
+        });
+
+        infowindow.open(map, marker);
+
+        //events
+        map.addListener("dragend", function() {
+            infowindow.open(map, marker);
+        });
+
+
+
+
+    }
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxIPbNd4ljI6NdSyP5ugk4XoKDzw2VEZM&callback=initMap" async defer></script>
 
 </body>
 </html>
