@@ -55,6 +55,12 @@
             strokeWeight: 5
         };
 
+ // This is the three arrays in the Markers object//
+
+
+
+
+
         var marker = new google.maps.Marker({
             position: {
 
@@ -66,7 +72,35 @@
             animation: google.maps.Animation.DROP,
             icon: chocCake
         });
-        marker.addListener('click', togglebounce);
+
+        // var marker2 = new google.maps.Marker({
+        //     position: {
+        //
+        //         lat: 29.426744,
+        //         lng: -98.489149,
+        //     },
+        //     map: map,
+        //     draggable: true,
+        //     animation: google.maps.Animation.DROP,
+        //
+        // });
+        //
+        // var marker3 = new google.maps.Marker({
+        //     position: {
+        //
+        //         lat: 29.426748,
+        //         lng: -98.490098,
+        //     },
+        //     map: map,
+        //     draggable: true,
+        //     animation: google.maps.Animation.DROP,
+        //
+        // });
+
+
+
+
+        markers.addListener('click', togglebounce);
 
         function togglebounce() {
             if(marker.getAnimation() !== null) {
