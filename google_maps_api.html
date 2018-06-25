@@ -1,133 +1,69 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Custom Markers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
     <style>
-        #map-canvas {
-            height: 500px;
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
         }
     </style>
 </head>
 <body>
-
-<div id="map-canvas"></div>
-
+<div id="map"></div>
 <script>
-
+    var map;
     function initMap() {
-        var mapCanvas = document.getElementById('map-canvas');
-        var mapOptions = {
-            zoom: 19,
-            mapTypeId: google.maps.MapTypeId.SATELLITE,
-            center: {
-                lat: 29.492833,
-                lng: -98.569148
-
-            }
-        };
-        var map = new google.maps.Map(mapCanvas, mapOptions);
-
-        //geocoding
-        var geo = new google.maps.Geocoder();
-
-        geo.geocode({address: "1621 Babcock Rd"}, function(response, status) {
-            if (status === "OK") {
-
-
-            map.setCenter(response[0].geometry.location);
-
-
-            } else {
-                console.log('geocode fail');
-            }
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 10,
+            center: new google.maps.LatLng(29.426744, -98.489149),
+            mapTypeId: 'roadmap'
         });
-        //marker
-        var chocCake = {
-            path: 'M 125,10 155,90 245,90 175,145 200,230 125,180 50,230 75,145 5,90 95,90 z',
-            fillColor: 'green',
+
+
+        var goldStar = {
+            path: 'M 125,5 155,90 245,90 175,145 200,230 125,180 50,230 75,145 5,90 95,90 z',
+            fillColor: 'yellow',
             fillOpacity: 0.8,
-            scale: .2,
+            scale: .3,
             strokeColor: 'gold',
-            strokeWeight: 5
+            strokeWeight: 1
         };
 
- // This is the three arrays in the Markers object//
-
-
-
-
-
-        var marker = new google.maps.Marker({
-            position: {
-
-                lat: 29.492833,
-                lng: -98.569148
+        var features = [
+            {
+                position: new google.maps.LatLng(29.426744, -98.489149),
+                type: 'info'
+            }, {
+                position: new google.maps.LatLng(29.426786, -98.489576),
+                type: 'info'
+            }, {
+                position: new google.maps.LatLng(29.426748, -98.490098),
+                type: 'info'
             },
-            map: map,
-            draggable: true,
-            animation: google.maps.Animation.DROP,
-            icon: chocCake
+        ];
+
+        // Create markers.
+        features.forEach(function(feature) {
+            var marker = new google.maps.Marker({
+                position: feature.position,
+                icon: goldStar,
+                map: map
+            });
         });
-
-        // var marker2 = new google.maps.Marker({
-        //     position: {
-        //
-        //         lat: 29.426744,
-        //         lng: -98.489149,
-        //     },
-        //     map: map,
-        //     draggable: true,
-        //     animation: google.maps.Animation.DROP,
-        //
-        // });
-        //
-        // var marker3 = new google.maps.Marker({
-        //     position: {
-        //
-        //         lat: 29.426748,
-        //         lng: -98.490098,
-        //     },
-        //     map: map,
-        //     draggable: true,
-        //     animation: google.maps.Animation.DROP,
-        //
-        // });
-
-
-
-
-        markers.addListener('click', togglebounce);
-
-        function togglebounce() {
-            if(marker.getAnimation() !== null) {
-                marker.setAnimation(null);
-            } else {
-                marker.setAnimation(google.maps.Animation.BOUNCE);
-            }
-        }
-        //infowindow
-        var infowindow = new google.maps.InfoWindow({
-            content: "Best German Chocolate Cake!"
-        });
-
-        infowindow.open(map, marker);
-
-        //events
-        map.addListener("dragend", function() {
-            infowindow.open(map, marker);
-        });
-
-
-
-
     }
-
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxIPbNd4ljI6NdSyP5ugk4XoKDzw2VEZM&callback=initMap" async defer></script>
-
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxIPbNd4ljI6NdSyP5ugk4XoKDzw2VEZM&callback=initMap">
+</script>
 </body>
 </html>
